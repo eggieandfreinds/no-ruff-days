@@ -1394,7 +1394,159 @@ footer a:hover{opacity:.7;}
 .vs-table tbody tr:nth-child(6){transition-delay:.40s;}
 .vs-table tbody tr:nth-child(7){transition-delay:.47s;}
 
- </style>
+ 
+
+/* ── BUG FIXES: Reviews, mobile stats, trial-pack scroll ── */
+/* 1) Review carousel: keep each slide perfectly inside the centre column */
+.community-grid{
+  grid-template-columns:minmax(150px,220px) minmax(0,520px) minmax(150px,220px) !important;
+  justify-content:center !important;
+  align-items:start !important;
+}
+.community-reviews,
+.community-reviews .rv-carousel,
+.community-reviews .rv-track-wrap{
+  width:100% !important;
+  max-width:520px !important;
+  min-width:0 !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  box-sizing:border-box !important;
+}
+.community-reviews .rv-carousel{display:block !important; overflow:hidden !important;}
+.community-reviews .rv-track-wrap{overflow:hidden !important;}
+.community-reviews .rv-track{display:flex !important; align-items:stretch !important;}
+.community-reviews .rv-slide{
+  width:100% !important;
+  min-width:100% !important;
+  max-width:100% !important;
+  flex:0 0 100% !important;
+  box-sizing:border-box !important;
+  padding:0 !important;
+}
+.community-reviews .rv-slide .review-card{
+  min-width:0 !important;
+  overflow:hidden !important;
+}
+.community-reviews .rv-text,
+.community-mobile-reviews .rv-text{
+  word-break:normal !important;
+  overflow-wrap:break-word !important;
+  hyphens:none !important;
+  -webkit-hyphens:none !important;
+}
+
+@media(max-width:900px){
+  /* Mobile review: one card centred, no side cut-off */
+  .community-mobile-reviews{
+    display:block !important;
+    width:100% !important;
+    max-width:430px !important;
+    padding:0 20px !important;
+    margin:0 auto !important;
+    box-sizing:border-box !important;
+  }
+  .community-mobile-reviews .rv-carousel{
+    display:block !important;
+    width:100% !important;
+    max-width:100% !important;
+    margin:0 auto !important;
+    overflow:hidden !important;
+  }
+  .community-mobile-reviews .rv-track-wrap{
+    width:100% !important;
+    max-width:100% !important;
+    overflow:hidden !important;
+    min-width:0 !important;
+  }
+  .community-mobile-reviews .rv-track{
+    display:flex !important;
+    align-items:stretch !important;
+  }
+  .community-mobile-reviews .rv-slide.review-card{
+    width:100% !important;
+    min-width:100% !important;
+    max-width:100% !important;
+    flex:0 0 100% !important;
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:space-between !important;
+    padding:24px 22px !important;
+    box-sizing:border-box !important;
+    margin:0 !important;
+    min-height:250px !important;
+    overflow:hidden !important;
+  }
+  .community-mobile-reviews .rv-text{
+    font-size:.92rem !important;
+    line-height:1.65 !important;
+    text-align:center !important;
+    display:block !important;
+    overflow:visible !important;
+    margin:12px 0 18px !important;
+  }
+  .community-mobile-reviews .rv-author{justify-content:center !important;}
+
+  /* 2) Mobile 90% / pH 6.6 box: balanced and no awkward hyphen breaks */
+  .prob-stats{
+    display:grid !important;
+    grid-template-columns:1fr 1px 1fr !important;
+    align-items:stretch !important;
+    width:100% !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+  .prob-stat{
+    padding:26px 14px !important;
+    justify-content:center !important;
+  }
+  .prob-stat-num{
+    font-size:clamp(2.9rem,13vw,4rem) !important;
+    line-height:1.02 !important;
+    text-align:center !important;
+    white-space:normal !important;
+    word-break:normal !important;
+    overflow-wrap:normal !important;
+    hyphens:none !important;
+    -webkit-hyphens:none !important;
+  }
+  .prob-stat-desc{
+    max-width:135px !important;
+    margin:0 auto !important;
+    text-align:center !important;
+    font-size:.92rem !important;
+    line-height:1.45 !important;
+    word-break:normal !important;
+    overflow-wrap:normal !important;
+    hyphens:none !important;
+    -webkit-hyphens:none !important;
+  }
+
+  /* 3) Trial Pack: start from first card, which is the sample sachets */
+  .trial-card-row{
+    justify-content:flex-start !important;
+    scroll-snap-type:x mandatory !important;
+    scroll-padding-left:0 !important;
+    padding-left:0 !important;
+    margin-left:0 !important;
+  }
+  .trial-card-row > div{
+    scroll-snap-align:start !important;
+  }
+}
+
+@media(max-width:430px){
+  .community-mobile-reviews{padding:0 16px !important;}
+  .community-mobile-reviews .rv-slide.review-card{padding:22px 18px !important;}
+  .prob-stat{padding:24px 10px !important;}
+  .prob-stat-desc{font-size:.88rem !important;max-width:125px !important;}
+}
+
+
+.ph-stat{display:flex;flex-direction:column;align-items:center;gap:0;}
+@media(min-width:901px){.ph-stat{display:block;}.ph-stat span{display:inline;}.ph-stat span+span::before{content:" ";}}
+
+</style>
 <script async="" src=".//embed.js"></script>
 </head>
 <body>
@@ -1531,7 +1683,7 @@ footer a:hover{opacity:.7;}
             </div>
             <div class="prob-stat-divider"></div>
             <div class="prob-stat">
-              <div class="prob-stat-num">pH 6.6</div>
+              <div class="prob-stat-num ph-stat"><span>pH</span><span>6.6</span></div>
               <div class="prob-stat-desc">perfectly balanced for your furkid's skin</div>
             </div>
           </div>
@@ -2058,5 +2210,12 @@ const tableObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.vs-table').forEach(t => tableObserver.observe(t));
 </script>
 
+
+
+<script>
+window.addEventListener('load', function(){
+  document.querySelectorAll('.trial-card-row').forEach(function(row){ row.scrollLeft = 0; });
+});
+</script>
 
 </body></html>
